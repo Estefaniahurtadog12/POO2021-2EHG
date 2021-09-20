@@ -1,20 +1,28 @@
+VIEW := View
+CONTROLLER := Controller
+MODEL := Model
+
 all: compilar
-compilar: tipoProducto producto detalleFactura factura tienda view main
-		g++ -o Salida TipoProducto.o Producto.o Factura.o DetalleFactura.o Tienda.o View.o Main.o
-tipoProducto: TipoProducto.cpp TipoProducto.h
-	g++ -c TipoProducto.cpp
-producto: Producto.cpp Producto.h TipoProducto.h
-		g++ -c Producto.cpp
-detalleFactura: DetalleFactura.cpp DetalleFactura.h Producto.h
-	g++ -c DetalleFactura.cpp
-factura: Factura.cpp Factura.h DetalleFactura.h
-	g++ -c Factura.cpp
-tienda: Tienda.cpp Tienda.h TipoProducto.h Producto.h Factura.h  
-		g++ -c Tienda.cpp
-view: View.cpp View.h Tienda.h
-		g++ -c View.cpp
-main: Main.cpp View.h 
-	  g++ -c Main.cpp
-clean: #comando para borrar los .o
+compilar: criterio acta persona director jurado asistente universidad doview main
+	g++ -o Salida Criterio.o Acta.o Persona.o Director.o Jurado.o Asistente.o Universidad.o View.o main.o
+criterio: ${MODEL}/Criterio.cpp ${MODEL}/Criterio.h
+	g++ -c ${MODEL}/Criterio.cpp
+acta: ${MODEL}/Acta.cpp ${MODEL}/Acta.h ${MODEL}/Criterio.h
+	g++ -c ${MODEL}/Acta.cpp
+persona: ${MODEL}/Persona.cpp ${MODEL}/Persona.h ${MODEL}/Acta.h
+	g++ -c ${MODEL}/Persona.cpp
+director: ${MODEL}/Director.cpp ${MODEL}/Director.h ${MODEL}/Persona.h
+	g++ -c ${MODEL}/Director.cpp
+jurado: ${MODEL}/Jurado.cpp ${MODEL}/Jurado.h ${MODEL}/Persona.h
+	g++ -c ${MODEL}/Jurado.cpp
+asistente: ${MODEL}/Asistente.cpp ${MODEL}/Asistente.h ${MODEL}/Persona.h
+	g++ -c ${MODEL}/Asistente.cpp
+universidad: ${MODEL}/Universidad.cpp ${MODEL}/Universidad.h ${MODEL}/Asistente.h ${MODEL}/Jurado.h ${MODEL}/Director.h ${MODEL}/Acta.h
+	g++ -c ${MODEL}/Universidad.cpp
+doview: ${VIEW}/View.cpp ${VIEW}/View.h ${MODEL}/Universidad.h
+	g++ -c ${VIEW}/View.cpp
+main: main.cpp ${VIEW}/View.h 
+	g++ -c main.cpp
+clean: #comando para borrar los .o y el .exe
 	@echo "Cleaning compilation..."
-	del *.o
+	del *.o, del *.exe
